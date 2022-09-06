@@ -2,7 +2,9 @@ package ru.smirnov;
 
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,15 +23,15 @@ public class Main {
 
         Map<Object, Long> groupingMap = Arrays.stream(RAW_DATA).distinct()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
-        Set<Map.Entry<Object, Long>> entry = groupingMap.entrySet();
-        for (Map.Entry<Object, Long> objectLongEntry : entry) {
-            System.out.println("Key: " + objectLongEntry.getKey() + "\nValue:" + objectLongEntry.getValue());
-        }
+        groupingMap.forEach((key, value) ->
+        {
+            System.out.println("Key: " + key);
+            System.out.println("Value: " + value);
+        });
+
         System.out.println("**************************************************");
 
-        List<Integer> listToCheck = Arrays.asList(3, 4, 2, 7);
-        System.out.println(findPairOfNumbers(listToCheck, 10));
-
+        System.out.println(findPairOfNumbers(Arrays.asList(3, 4, 2, 7), 10));
         System.out.println("**************************************************");
 
         System.out.println(fuzzySearch("car", "ca6$$#_rtwheel")); // true
@@ -43,8 +45,8 @@ public class Main {
 
     private static Person[] RAW_DATA = new Person[]{
             new Person(0, "Harry"),
-            new Person(0, "Harry"), // дубликат
-            new Person(1, "Harry"), // тёзка
+            new Person(0, "Harry"),
+            new Person(1, "Harry"),
             new Person(2, "Harry"),
             new Person(3, "Emily"),
             new Person(4, "Jack"),
@@ -56,19 +58,17 @@ public class Main {
             new Person(8, "Amelia"),
     };
 
-
-    private static boolean fuzzySearch(String expected, String stringToSearch) {
-        String[] array = Arrays.stream(expected.split("")).distinct().toArray(String[]::new);
-        String[] array2 = stringToSearch.split("");
-        String str = "";
-        for (int i = 0; i < array2.length; i++) {
-            for (int j = 0; j < array.length; j++) {
-                if (array[j].equals(array2[i])) {
-                    str += array2[i];
-                }
+    public static boolean fuzzySearch(String expected, String stringToSearch) {
+        int index = 0;
+        for (int i = 0; i < stringToSearch.length(); i++) {
+            if (expected.charAt(index) == stringToSearch.charAt(i)) {
+                index++;
+            }
+            if (index == expected.length()) {
+                return true;
             }
         }
-        return expected.equals(str);
+        return false;
     }
 
     public static List<Integer> findPairOfNumbers(List<Integer> array, int expected) {
