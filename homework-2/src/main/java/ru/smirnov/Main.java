@@ -2,6 +2,7 @@ package ru.smirnov;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -69,14 +70,14 @@ public class Main {
         return false;
     }
 
-    public static List<Integer> findPairOfNumbers(List<Integer> array, int expected) {
+    public static List<Integer> findPairOfNumbers(List<Integer> array, int sum) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < array.size(); i++) {
             for (int j = 0; j < array.size(); j++) {
                 if (i == j) {
                     continue;
                 }
-                if (array.get(i) + array.get(j) == expected) {
+                if (array.get(i) + array.get(j) == sum) {
                     result.add(array.get(i));
                     result.add(array.get(j));
                     return result;
