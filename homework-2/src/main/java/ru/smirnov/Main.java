@@ -20,7 +20,7 @@ public class Main {
         System.out.println("Duplicate filtered, grouped by name, sorted by name and id:");
         System.out.println();
 
-        Map<Object, Long> groupingMap = Arrays.stream(RAW_DATA).distinct()
+        Map<Object, Long> groupingMap = Arrays.stream(Optional.of(RAW_DATA).orElseThrow(NullPointerException::new)).distinct()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
         groupingMap.forEach((key, value) ->
         {
