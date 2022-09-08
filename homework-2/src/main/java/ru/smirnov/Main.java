@@ -33,8 +33,7 @@ public class Main {
 
         System.out.println("**************************************************");
 
-        /*System.out.println(findPairOfNumbers(Arrays.asList(3, 4, 2, 7), 10));*/
-        System.out.println(findPairOfNumbers(Arrays.asList(), 10));
+        System.out.println(findPairOfNumbers(Arrays.asList(3, 4, 2, 7), 10));
         System.out.println("**************************************************");
 
         System.out.println(fuzzySearch("car", "ca6$$#_rtwheel")); // true
