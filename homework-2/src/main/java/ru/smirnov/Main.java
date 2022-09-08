@@ -61,7 +61,7 @@ public class Main {
     };
 
     public static boolean fuzzySearch(String expected, String stringToSearch) {
-        if((expected == null || stringToSearch == null) && (expected == null && stringToSearch == null)){
+        if((expected == null || stringToSearch == null) || (expected == null && stringToSearch == null)){
             return false;
         }
         int index = 0;
