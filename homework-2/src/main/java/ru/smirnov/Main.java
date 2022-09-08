@@ -20,7 +20,10 @@ public class Main {
         System.out.println("Duplicate filtered, grouped by name, sorted by name and id:");
         System.out.println();
 
-        Map<Object, Long> groupingMap = Arrays.stream(Optional.of(RAW_DATA).orElseThrow(NullPointerException::new)).distinct()
+        Map<Object, Long> groupingMap = Arrays.stream(Optional.of(RAW_DATA).orElseThrow(NullPointerException::new))
+                .filter(Objects::nonNull)
+                .distinct()
+                .sorted(Comparator.comparing(v -> v.id))
                 .collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
         groupingMap.forEach((key, value) ->
         {
@@ -30,7 +33,8 @@ public class Main {
 
         System.out.println("**************************************************");
 
-        System.out.println(findPairOfNumbers(Arrays.asList(3, 4, 2, 7), 10));
+        /*System.out.println(findPairOfNumbers(Arrays.asList(3, 4, 2, 7), 10));*/
+        System.out.println(findPairOfNumbers(Arrays.asList(), 10));
         System.out.println("**************************************************");
 
         System.out.println(fuzzySearch("car", "ca6$$#_rtwheel")); // true
@@ -39,7 +43,6 @@ public class Main {
         System.out.println(fuzzySearch("cartwheel", "cartwheel")); // true
         System.out.println(fuzzySearch("cwheeel", "cartwheel")); // false
         System.out.println(fuzzySearch("lw", "cartwheel")); // false
-
     }
 
     private static Person[] RAW_DATA = new Person[]{
@@ -58,6 +61,9 @@ public class Main {
     };
 
     public static boolean fuzzySearch(String expected, String stringToSearch) {
+        if((expected == null || stringToSearch == null) && (expected == null && stringToSearch == null)){
+            return false;
+        }
         int index = 0;
         for (int i = 0; i < stringToSearch.length(); i++) {
             if (expected.charAt(index) == stringToSearch.charAt(i)) {
@@ -71,15 +77,17 @@ public class Main {
     }
 
     public static List<Integer> findPairOfNumbers(List<Integer> array, int sum) {
+        List<Integer> list = array.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        System.out.println(list);
         List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < array.size(); i++) {
-            for (int j = 0; j < array.size(); j++) {
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
                 if (i == j) {
                     continue;
                 }
-                if (array.get(i) + array.get(j) == sum) {
-                    result.add(array.get(i));
-                    result.add(array.get(j));
+                if (list.get(i) + list.get(j) == sum) {
+                    result.add(list.get(i));
+                    result.add(list.get(j));
                     return result;
                 }
             }
@@ -126,5 +134,3 @@ public class Main {
         }
     }
 }
-
-
